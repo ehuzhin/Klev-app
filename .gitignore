@@ -1,0 +1,7 @@
+dist/
+worker/index.js
+deployment*.tar.gz
+node_modules/
+.env
+.env.*
+.DS_Store

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eaf1e8">
+  <title>Калькулятор клёва</title>
+  <style>
+    :root{--ink:#182c28;--muted:#66746e;--paper:#f4f6ef;--card:#fffef9;--line:#e2e7dc;--green:#205b48;--lime:#d8ec8c;--orange:#e48652;--shadow:0 18px 50px #1d38210b}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+    .wrap{max-width:1120px;margin:auto;padding:30px 22px 64px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:36px}.brand{display:flex;align-items:center;gap:11px;font-weight:750;letter-spacing:-.03em}.mark{display:grid;place-items:center;width:42px;height:42px;border-radius:15px;background:var(--green);color:#fff;font-size:22px}.tag{font-size:12px;color:var(--muted);border:1px solid var(--line);padding:7px 12px;border-radius:99px;background:#ffffff8c}
+    .hero{display:grid;grid-template-columns:1.25fr .75fr;gap:26px;align-items:end;margin-bottom:26px}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:750;color:var(--green)}h1{font-size:clamp(36px,6vw,64px);line-height:.99;letter-spacing:-.065em;margin:12px 0 17px;max-width:700px}.hero p{color:var(--muted);max-width:630px;margin:0}.hint{border-left:3px solid var(--orange);padding:13px 16px;color:#555e57;font-size:13px;background:#fffaf2;border-radius:0 12px 12px 0}
+    .layout{display:grid;grid-template-columns:1fr 330px;gap:20px;align-items:start}.panel,.result{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}.panel{padding:24px}.section-title{font-size:17px;font-weight:760;letter-spacing:-.025em;margin:0 0 18px}.section-title span{display:block;font-size:12px;font-weight:450;color:var(--muted);letter-spacing:0;margin-top:3px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.field label{display:block;font-size:13px;font-weight:680;margin-bottom:7px}.field small{display:block;color:var(--muted);font-weight:450;font-size:11px;margin-top:5px}.control{width:100%;height:46px;border:1px solid #dce2d8;border-radius:11px;background:#fff;padding:0 12px;font:inherit;color:var(--ink);outline:none}.control:focus{border-color:var(--green);box-shadow:0 0 0 3px #205b4818}.units{position:relative}.units .control{padding-right:48px}.unit{position:absolute;right:13px;top:11px;color:var(--muted);font-size:13px;pointer-events:none}.divider{height:1px;background:var(--line);margin:23px 0}.slider-row{display:flex;justify-content:space-between;align-items:center}.slider-row output{font-weight:700;color:var(--green)}input[type=range]{width:100%;accent-color:var(--green);margin:12px 0 0}.full{grid-column:1/-1}.result{position:sticky;top:20px;padding:24px;background:var(--green);color:white;border:0;overflow:hidden}.result:before{content:"";position:absolute;width:210px;height:210px;border-radius:50%;background:#ffffff0d;right:-85px;top:-110px}.result-label{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:#c5d6ca;font-weight:700}.score{font-size:70px;line-height:1;letter-spacing:-.07em;font-weight:800;margin:16px 0 9px}.score small{font-size:20px;letter-spacing:0;color:#c5d6ca}.status{display:inline-flex;align-items:center;gap:7px;background:#ffffff18;border:1px solid #ffffff24;border-radius:99px;padding:7px 11px;font-size:13px;font-weight:700}.status i{width:8px;height:8px;border-radius:50%;background:var(--lime)}.result p{font-size:13px;color:#d7e2da;margin:16px 0 20px}.meter{height:7px;background:#ffffff24;border-radius:8px;overflow:hidden}.meter b{display:block;height:100%;width:50%;background:var(--lime);border-radius:8px;transition:width .3s}.factor-title{font-size:12px;color:#c5d6ca;font-weight:700;margin:23px 0 10px}.factors{display:grid;gap:9px}.factor{display:flex;justify-content:space-between;gap:10px;font-size:12px}.factor span:first-child{color:#d8e4dc}.factor strong{font-weight:650;text-align:right}.advice{padding:12px 13px;margin-top:20px;background:#ffffff12;border-radius:12px;font-size:12px;color:#e4ede6}.foot{margin:18px 4px 0;font-size:11px;color:#738078}.btn{border:0;background:var(--lime);color:var(--ink);padding:12px 16px;border-radius:12px;font:700 14px system-ui,sans-serif;cursor:pointer}.bottom-note{margin-top:18px;padding:14px 16px;border:1px dashed #d3dbcf;border-radius:14px;color:var(--muted);font-size:12px}.bottom-note strong{color:var(--ink)}
+    .geo-box{padding:16px;background:#f0f5ec;border:1px solid var(--line);border-radius:16px;margin:-3px 0 22px}.geo-head{display:flex;align-items:center;justify-content:space-between;gap:14px}.geo-title{font-weight:750;font-size:14px}.geo-copy{color:var(--muted);font-size:11px;margin:3px 0 0}.geo-btn{white-space:nowrap}.geo-status{font-size:12px;color:var(--muted);margin:10px 0 0}.geo-status.error{color:#a34433}.geo-results{margin-top:12px;display:grid;gap:10px}.geo-result{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:12px}.geo-result strong{display:block;color:var(--ink);font-size:12px;margin-bottom:4px}.geo-result a{color:var(--green)}.geo-small{color:var(--muted);font-size:10px;line-height:1.45}.geo-select{margin-top:8px}.species-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}.species-chip{border:1px solid #dce2d8;background:#f7faf4;color:var(--green);border-radius:99px;padding:5px 9px;font:600 11px system-ui,sans-serif;cursor:pointer}.geo-loading{opacity:.65;pointer-events:none}
+    @media(max-width:800px){.layout{grid-template-columns:1fr}.result{position:static}.hero{grid-template-columns:1fr;gap:15px}.top{margin-bottom:25px}.wrap{padding:20px 15px 42px}}
+    @media(max-width:500px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.panel,.result{padding:19px}.tag{font-size:10px}.score{font-size:60px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top"><div class="brand"><div class="mark">≈</div><span>Рыбацкий прогноз</span></div><span class="tag">Оценка по вашим данным</span></header>
+    <section class="hero"><div><div class="eyebrow">Перед выездом на водоём</div><h1>Сегодня рыба<br>будет клевать?</h1><p>Укажите рыбу, погоду и состояние водоёма. Калькулятор покажет, насколько условия выглядят перспективными, и объяснит оценку.</p></div><aside class="hint"><strong>Важно:</strong> это ориентир, а не гарантия улова. Место, снасть, наживка и сезон часто влияют сильнее, чем одно показание барометра.</aside></section>
+    <div class="layout">
+      <section class="panel" aria-label="Параметры прогноза">
+        <h2 class="section-title">1. Кого и где ловим<span>Вид рыбы задаёт подходящий диапазон температуры воды.</span></h2>
+        <div class="geo-box">
+          <div class="geo-head"><div><div class="geo-title">Определить место рыбалки</div><p class="geo-copy">Нажмите у места ловли: найдём ближайший водоём на карте, местное время, сезон и погоду.</p></div><button class="btn geo-btn" id="locateBtn" type="button">⌖ Определить</button></div>
+          <div class="geo-status" id="geoStatus">Геопозиция включится только после нажатия и разрешения браузера.</div>
+          <div class="geo-results" id="geoResults" hidden></div>
+          <div class="geo-small" style="margin-top:10px">После вашего нажатия координаты передаются для запроса в <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>, <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>, <a href="https://photon.komoot.io/" target="_blank" rel="noopener">Photon</a> и <a href="https://www.gbif.org/" target="_blank" rel="noopener">GBIF</a>. Сведения о рыбах - наблюдения в радиусе 10 км, а не подтверждение наличия в выбранном водоёме.</div>
+        </div>
+        <div class="grid">
+          <div class="field"><label for="fish">Вид рыбы</label><select class="control" id="fish"><option value="pike">Щука</option><option value="perch">Окунь</option><option value="carp">Карп / сазан</option><option value="bream">Лещ</option><option value="zander">Судак</option><option value="trout">Форель</option><option value="other">Другая / не знаю</option></select></div>
+          <div class="field"><label for="water">Тип водоёма</label><select class="control" id="water"><option value="lake">Озеро / водохранилище</option><option value="river">Река</option><option value="pond">Пруд</option></select></div>
+          <div class="field"><label for="time">Время ловли</label><select class="control" id="time"><option value="morning">Рассвет / утро</option><option value="day">День</option><option value="evening">Вечер / закат</option><option value="night">Ночь</option></select><small id="localTimeHint">После определения места покажем местное время.</small></div>
+          <div class="field"><label for="season">Сезон</label><select class="control" id="season"><option value="spring">Весна</option><option value="summer">Лето</option><option value="autumn">Осень</option><option value="winter">Зима</option></select></div>
+        </div>
+        <div class="divider"></div>
+        <h2 class="section-title">2. Погода<span>Смотрите не только на значение давления, но и на его изменение за последние сутки.</span></h2>
+        <div class="grid">
+          <div class="field"><label for="pressure">Атмосферное давление</label><div class="units"><input class="control" id="pressure" type="number" value="750" min="680" max="810"><span class="unit">мм рт. ст.</span></div><small>Показание вашего барометра или приложения.</small></div>
+          <div class="field"><label for="trend">Изменение давления за 24 ч</label><select class="control" id="trend"><option value="stable">Почти без изменений</option><option value="rise">Растёт</option><option value="fall">Падает</option><option value="sharp">Резко меняется</option></select></div>
+          <div class="field"><label for="air">Температура воздуха</label><div class="units"><input class="control" id="air" type="number" value="18" min="-40" max="45"><span class="unit">°C</span></div></div>
+          <div class="field"><label for="waterTemp">Температура воды</label><div class="units"><input class="control" id="waterTemp" type="number" value="16" min="0" max="35"><span class="unit">°C</span></div><small>Для озера или пруда лучше измерить у места ловли.</small></div>
+          <div class="field"><label for="wind">Ветер</label><div class="units"><input class="control" id="wind" type="number" value="3" min="0" max="40"><span class="unit">м/с</span></div></div>
+          <div class="field"><label for="cloud">Облачность</label><select class="control" id="cloud"><option value="clear">Ясно</option><option value="part">Переменная облачность</option><option value="cloudy">Пасмурно</option></select></div>
+          <div class="field"><label for="rain">Осадки</label><select class="control" id="rain"><option value="none">Нет</option><option value="light">Небольшой дождь</option><option value="heavy">Сильный дождь / гроза</option></select></div>
+          <div class="field"><label for="front">Погода меняется?</label><select class="control" id="front"><option value="calm">Устойчивая</option><option value="before">Перед фронтом</option><option value="after">Сразу после фронта</option></select></div>
+        </div>
+        <div class="divider"></div>
+        <h2 class="section-title">3. Состояние воды<span>Для реки особенно важны уровень и скорость течения.</span></h2>
+        <div class="grid">
+          <div class="field"><label for="waterChange">Уровень / течение</label><select class="control" id="waterChange"><option value="stable">Стабильные</option><option value="rising">Вода прибывает / течение усилилось</option><option value="falling">Вода убывает</option><option value="fast">Сильное течение</option></select></div>
+          <div class="field"><label for="clarity">Прозрачность воды</label><select class="control" id="clarity"><option value="clear">Прозрачная</option><option value="normal">Обычная</option><option value="muddy">Мутная</option></select></div>
+          <div class="field full"><div class="slider-row"><label for="pressureConfidence">Насколько точны ваши данные?</label><output id="confidenceOut">Средне</output></div><input id="pressureConfidence" type="range" min="1" max="3" value="2"><small>Если данные приблизительные, оценка будет менее надёжной.</small></div>
+        </div>
+      </section>
+      <aside class="result" aria-live="polite">
+        <div class="result-label">Перспективность условий</div><div class="score"><span id="score">--</span><small> / 100</small></div><div class="status"><i></i><span id="status">Считаю</span></div><p id="summary">Заполните параметры - оценка обновится автоматически.</p><div class="meter"><b id="bar"></b></div>
+        <div class="factor-title">Что повлияло на оценку</div><div class="factors" id="factors"></div><div class="advice" id="advice">Укажите, где и кого ловите, чтобы получить подсказку.</div><div class="foot">Модель упрощённая. Записывайте фактические уловы, чтобы подобрать условия под свой водоём.</div>
+      </aside>
+    </div>
+    <div class="bottom-note"><strong>Для более точного прогноза добавьте:</strong> точное место и глубину, дату и сезонный ход рыбы, время после фронта, температуру воды на месте, наживку и ваши прошлые результаты на этом водоёме.</div>
+  </main>
+  <script>
+    const $=id=>document.getElementById(id);
+    const scoreRange=(value,low,high)=>value<low?Math.max(0,70-(low-value)*9):value>high?Math.max(0,70-(value-high)*8):90;
+    const fishNames={pike:'щука',perch:'окунь',carp:'карп / сазан',bream:'лещ',zander:'судак',trout:'форель',other:'рыба'};
+    const tempRanges={pike:[12,21],perch:[12,22],carp:[18,26],bream:[16,24],zander:[14,23],trout:[8,16],other:[14,23]};
+    let lastLocation=null;
+    const fishKindByLatin=[[/\besox lucius\b/i,'pike'],[/\bperca fluviatilis\b/i,'perch'],[/\bcyprinus carpio\b/i,'carp'],[/\bcarassius (?:gibelio|carassius)\b/i,'carp'],[/\babramis brama\b/i,'bream'],[/\bsander lucioperca\b/i,'zander'],[/\bsalmo trutta\b/i,'trout']];
+    function guessFishKind(name){return fishKindByLatin.find(([re])=>re.test(name))?.[1]||'other'}
+    const russianFishNames={'Esox lucius':'Щука','Perca fluviatilis':'Окунь','Cyprinus carpio':'Карп / сазан','Carassius gibelio':'Карась','Carassius carassius':'Карась','Abramis brama':'Лещ','Sander lucioperca':'Судак','Salmo trutta':'Форель','Rutilus rutilus':'Плотва','Silurus glanis':'Сом'};
+    function setStatus(text,error=false){const el=$('geoStatus');el.textContent=text;el.classList.toggle('error',error)}
+    function seasonAt(month,lat){const north=lat>=0;if(north){if([2,3,4].includes(month))return'spring';if([5,6,7].includes(month))return'summer';if([8,9,10].includes(month))return'autumn';return'winter'}if([8,9,10].includes(month))return'spring';if([11,0,1].includes(month))return'summer';if([2,3,4].includes(month))return'autumn';return'winter'}
+    function fillWeather(data,lat){const c=data.current||{},p=(Number(c.pressure_msl)||1000)*0.7500617;if(c.temperature_2m!=null)$('air').value=Math.round(c.temperature_2m);if(c.wind_speed_10m!=null)$('wind').value=Number(c.wind_speed_10m).toFixed(1);if(c.pressure_msl!=null)$('pressure').value=p.toFixed(1);if(c.cloud_cover!=null)$('cloud').value=c.cloud_cover<25?'clear':c.cloud_cover<70?'part':'cloudy';const precip=Number(c.precipitation||c.rain||c.showers||0),storm=Number(c.weather_code)>=95;$('rain').value=storm||precip>=3?'heavy':precip>0?'light':'none';const stamp=Number(c.time)?new Date(Number(c.time)*1000):new Date(),tz=data.timezone||'UTC',parts=new Intl.DateTimeFormat('en-GB',{timeZone:tz,month:'numeric',hour:'numeric',hourCycle:'h23'}).formatToParts(stamp),hour=Number(parts.find(x=>x.type==='hour')?.value),month=Number(parts.find(x=>x.type==='month')?.value)-1;if(Number.isFinite(hour))$('time').value=hour<5||hour>=22?'night':hour<10?'morning':hour<17?'day':'evening';if(month>=0)$('season').value=seasonAt(month,lat);const times=data.hourly?.time||[],pressures=data.hourly?.pressure_msl||[];if(times.length&&pressures.length){const target=Number(c.time)-86400;let idx=0,best=Infinity;times.forEach((v,i)=>{const diff=Math.abs(Number(v)-target);if(diff<best){best=diff;idx=i}});const old=Number(pressures[idx]),now=Number(c.pressure_msl);if(Number.isFinite(old)&&Number.isFinite(now)){const delta=now-old;$('trend').value=Math.abs(delta)>=5?'sharp':delta>=1.5?'rise':delta<=-1.5?'fall':'stable'}}const localStamp=new Intl.DateTimeFormat('ru-RU',{timeZone:tz,dateStyle:'short',timeStyle:'short'}).format(stamp);$('localTimeHint').textContent=`По координатам: ${localStamp} (${tz}); сезон заполнен автоматически.`;calc()}
+    function setWaterChoices(rows){const host=$('geoResults');const current=host.querySelector('#nearbyWater');if(current)current.remove();if(!rows.length){const p=document.createElement('div');p.className='geo-result';p.textContent='Не нашёл размеченный водоём рядом на OpenStreetMap. Можно выбрать его тип вручную.';host.append(p);return}const wrap=document.createElement('div');wrap.className='geo-result';const label=document.createElement('strong');label.textContent='Ближайшие водоёмы на карте';wrap.append(label);const select=document.createElement('select');select.id='nearbyWater';select.className='control geo-select';rows.forEach((row,i)=>{const option=document.createElement('option');const name=row.name||({river:'Водоток без названия',lake:'Водоём без названия',pond:'Пруд без названия'})[row.kind];option.value=String(i);option.textContent=`${name} · ${{river:'река / водоток',lake:'озеро / водохранилище',pond:'пруд'}[row.kind]} · ${row.distance<1000?Math.round(row.distance)+' м':(row.distance/1000).toFixed(1)+' км'}`;select.append(option)});wrap.append(select);const link=document.createElement('a');link.target='_blank';link.rel='noopener';link.textContent='Открыть объект карты';link.style.display='inline-block';link.style.marginTop='7px';wrap.append(link);const credit=document.createElement('div');credit.className='geo-small';credit.textContent='Тип определён по картографической разметке; проверьте, что точка выбрана верно. © OpenStreetMap contributors.';wrap.append(credit);host.append(wrap);const apply=()=>{const row=rows[Number(select.value)];$('water').value=row.kind;link.href=`https://www.openstreetmap.org/${row.type}/${row.id}`;calc()};select.addEventListener('change',apply);apply()}
+    function setFishChoices(rows){const host=$('geoResults');const existing=host.querySelector('#fishNearby');if(existing)existing.remove();const wrap=document.createElement('div');wrap.id='fishNearby';wrap.className='geo-result';const label=document.createElement('strong');label.textContent=rows.length?'Рыбы по наблюдениям в радиусе 10 км':'В GBIF нет наблюдений рыб поблизости';wrap.append(label);if(rows.length){const note=document.createElement('div');note.className='geo-small';note.textContent='Это записи о наблюдениях в районе с 2000 года, а не подтверждение наличия рыбы именно в выбранном водоёме.';wrap.append(note);const chips=document.createElement('div');chips.className='species-list';rows.forEach(row=>{const option=document.createElement('option');option.value=`gbif_${row.key}`;option.dataset.kind=guessFishKind(row.name);option.textContent=`${row.label} (${row.name})`;if(!$('fish').querySelector(`option[value="${option.value}"]`))$('fish').append(option);fishNames[option.value]=row.label;tempRanges[option.value]=tempRanges[option.dataset.kind]||tempRanges.other;const chip=document.createElement('button');chip.type='button';chip.className='species-chip';chip.textContent=`${row.label} · ${row.count}`;chip.title=`${row.name}; последнее наблюдение: ${row.year||'год неизвестен'}`;chip.addEventListener('click',()=>{$('fish').value=option.value;calc()});chips.append(chip)});wrap.append(chips)}host.append(wrap)}
+    function fillClock(lat){
+      const now=new Date(), hour=now.getHours();
+      $('time').value=hour<5||hour>=22?'night':hour<10?'morning':hour<17?'day':'evening';
+      $('season').value=seasonAt(now.getMonth(),lat);
+      $('localTimeHint').textContent=`${now.toLocaleString('ru-RU')} - по часовому поясу устройства. Погода уточнит время по координатам.`;
+      calc();
+    }
+    async function requestJson(url,timeout=16000){
+      const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeout);
+      try{
+        const response=await fetch(url,{signal:controller.signal,credentials:new URL(url,location.href).origin===location.origin?'same-origin':'omit',cache:'no-store'});
+        if(response.status===401||response.status===403)throw new Error('Сессия сайта истекла. Откройте сайт заново и войдите через ChatGPT.');
+        if(!response.headers.get('content-type')?.includes('application/json'))throw new Error('Сервис не вернул данные. Откройте сайт по ссылке в браузере.');
+        const data=await response.json();
+        if(!response.ok)throw new Error(data.error||`Сервис ответил ${response.status}`);
+        return data;
+      }finally{clearTimeout(timer)}
+    }
+    async function weatherForLocation(lat,lon){
+      const params=new URLSearchParams({latitude:lat,longitude:lon,current:'temperature_2m,precipitation,weather_code,cloud_cover,pressure_msl,wind_speed_10m',hourly:'pressure_msl',past_hours:'25',forecast_hours:'1',timezone:'auto',timeformat:'unixtime',wind_speed_unit:'ms'});
+      try{return await requestJson('https://api.open-meteo.com/v1/forecast?'+params)}
+      catch(error){const data=await requestJson(`/api/location?lat=${lat}&lon=${lon}&resource=weather`,20000);if(!data.weather?.current)throw error;return data.weather}
+    }
+    function addGeoMessage(text,error=false){const el=document.createElement('div');el.className='geo-result';el.textContent=text;if(error)el.style.color='#a94442';$('geoResults').append(el);return el}
+    async function locateAndFill(){
+      const button=$('locateBtn');button.disabled=true;button.classList.add('geo-loading');$('geoResults').hidden=false;$('geoResults').replaceChildren();
+      setStatus('Запрашиваю разрешение браузера на геопозицию…');
+      const finish=()=>{button.disabled=false;button.classList.remove('geo-loading')};
+      if(!navigator.geolocation){setStatus('Этот браузер не поддерживает определение геопозиции.',true);finish();return}
+      navigator.geolocation.getCurrentPosition(async position=>{
+        const lat=position.coords.latitude,lon=position.coords.longitude;lastLocation={lat,lon};fillClock(lat);
+        const place=addGeoMessage(`Координаты: ${lat.toFixed(5)}, ${lon.toFixed(5)}; точность GPS около ${Math.round(position.coords.accuracy)} м.`);
+        const map=document.createElement('a');map.href=`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=15/${lat}/${lon}`;map.target='_blank';map.rel='noopener';map.textContent=' Открыть точку на карте';place.append(map);
+        setStatus('Координаты получены. Загружаю данные - результаты появятся по мере готовности…');
+        let completed=0,failed=0;
+        const task=async(name,work)=>{try{await work();completed++}catch(error){failed++;addGeoMessage(`${name}: ${error.name==='AbortError'?'источник не ответил вовремя. Попробуйте ещё раз.':error.message}`,true)}};
+        const api=async resource=>{const data=await requestJson(`/api/location?lat=${lat}&lon=${lon}&resource=${resource}`,45000);return data[resource]};
+        await Promise.allSettled([
+          task('Погода',async()=>{const data=await weatherForLocation(lat,lon);if(!data.current)throw new Error('нет текущих погодных данных');fillWeather(data,lat);addGeoMessage(`Погода загружена: воздух ${data.current.temperature_2m}°C, давление ${(data.current.pressure_msl*0.7500617).toFixed(1)} мм рт. ст., ветер ${data.current.wind_speed_10m} м/с. Температуру воды измерьте отдельно.`)}),
+          task('Местоположение',async()=>{const data=await api('place');if(data?.label)addGeoMessage(`Место: ${data.label}${data.street?', '+data.street:''}. © OpenStreetMap contributors, Photon.`);else addGeoMessage('Для этой точки название места не найдено. Координаты отмечены на карте.')}),
+          task('Водоём',async()=>setWaterChoices(await api('water'))),
+          task('Рыба',async()=>setFishChoices(await api('fish')))
+        ]);
+        setStatus(failed?`Загружено источников: ${completed} из 4. Ошибки указаны ниже; полученные поля заполнены.`:'Готово. Проверьте выбранный водоём; поля заполнены.',failed>0);finish();
+      },error=>{const msg=error.code===1?'Доступ к геопозиции запрещён. Разрешите его для сайта в настройках браузера.':error.code===3?'Не дождался ответа от GPS. Попробуйте ещё раз на открытом месте.':'Не получилось определить место. Проверьте настройки геопозиции.';setStatus(msg,true);finish()},{enableHighAccuracy:true,timeout:20000,maximumAge:120000});
+    }
+    function calc(){
+      const fish=$('fish').value, fishKind=$('fish').selectedOptions[0]?.dataset.kind||fish, fishLabel=fishNames[fish]||$('fish').selectedOptions[0]?.textContent||'рыба', water=$('water').value, time=$('time').value, season=$('season').value;
+      const pressure=Number($('pressure').value)||750, air=Number($('air').value)||0, wt=Number($('waterTemp').value)||0, wind=Number($('wind').value)||0;
+      const trend=$('trend').value, cloud=$('cloud').value, rain=$('rain').value, front=$('front').value, level=$('waterChange').value, clarity=$('clarity').value;
+      let parts=[];
+      const tr=tempRanges[fishKind]||tempRanges.other, temp=scoreRange(wt,tr[0],tr[1]);
+      parts.push(['Температура воды',temp,`${wt}°C; ориентир для вида ${tr[0]}-${tr[1]}°C`]);
+      let p=72;
+      if(trend==='stable')p=86; if(trend==='rise')p=76; if(trend==='fall')p=74; if(trend==='sharp')p=43;
+      if(pressure<730||pressure>775)p-=8;
+      parts.push(['Давление',Math.max(25,p),`${pressure} мм; ${({stable:'стабильное',rise:'растёт',fall:'падает',sharp:'резко меняется'})[trend]}`]);
+      let w=wind<=4?87:wind<=7?74:wind<=10?54:30;
+      parts.push(['Ветер',w,`${wind} м/с`]);
+      let sky=cloud==='part'?84:cloud==='cloudy'?78:70;
+      if(rain==='light')sky+=4; if(rain==='heavy')sky-=28;
+      parts.push(['Небо и осадки',Math.max(20,Math.min(92,sky)),`${({clear:'ясно',part:'переменная облачность',cloudy:'пасмурно'})[cloud]}, ${({none:'без осадков',light:'небольшой дождь',heavy:'сильные осадки'})[rain]}`]);
+      let phase=front==='calm'?78:front==='before'?69:48;
+      parts.push(['Смена погоды',phase,({calm:'погода устойчивая',before:'приближается фронт',after:'после фронта условия могут быть нестабильны'})[front]]);
+      let waterScore=level==='stable'?82:level==='falling'?68:level==='rising'?60:48;
+      if(water==='river')parts.push(['Уровень и течение',waterScore,({stable:'уровень стабильный',falling:'вода убывает',rising:'вода прибывает',fast:'сильное течение'})[level]]);
+      else parts.push(['Прозрачность воды',clarity==='normal'?80:clarity==='clear'?75:63,({normal:'обычная',clear:'прозрачная',muddy:'мутная'})[clarity]]);
+      let tod=(time==='morning'||time==='evening')?85:time==='night'?(fishKind==='carp'||fishKind==='bream'?80:64):67;
+      parts.push(['Время суток',tod,({morning:'утро',day:'день',evening:'вечер',night:'ночь'})[time]]);
+      let seasonScore=season==='winter'?66:season==='spring'?77:season==='summer'?78:82;
+      if((fishKind==='trout'&&season==='summer')||(fishKind==='carp'&&season==='winter'))seasonScore-=10;
+      parts.push(['Сезон',seasonScore,({spring:'весна',summer:'лето',autumn:'осень',winter:'зима'})[season]]);
+      const weights={'Температура воды':24,'Давление':17,'Ветер':13,'Небо и осадки':9,'Смена погоды':10,'Уровень и течение':12,'Прозрачность воды':8,'Время суток':12,'Сезон':12};
+      let chosen=parts.filter(x=>weights[x[0]]);let totalWeight=chosen.reduce((s,x)=>s+weights[x[0]],0);let score=Math.round(chosen.reduce((s,x)=>s+x[1]*weights[x[0]],0)/totalWeight);
+      const confidence=Number($('pressureConfidence').value);const confidenceText=({1:'часть значений приблизительная',2:'данные смешанные',3:'большинство значений измерено на месте'})[confidence];
+      const label=score>=78?'Хорошие условия':score>=60?'Есть шансы':score>=42?'Условия средние':'Сложный день';
+      $('score').textContent=score;$('status').textContent=label;$('bar').style.width=score+'%';
+      $('summary').textContent=(score>=78?`Условия выглядят перспективно для ловли на ${fishLabel}. Продумайте точку и наживку.`:score>=60?`Клёв возможен, но может быть неравномерным. Проверьте несколько точек и горизонтов.`:`Погода не выглядит идеальной. Ищите укрытия, меняйте глубину и темп подачи.`)+` Надёжность исходных данных: ${confidenceText}.`;
+      $('factors').innerHTML=parts.map(x=>`<div class="factor"><span>${x[0]}</span><strong>${x[2]}</strong></div>`).join('');
+      const tips={pike:'Ищите бровки, траву и укрытия; пробуйте менять скорость проводки.',perch:'Проверьте стаи малька и разные горизонты.',carp:'Ищите прогретые участки; прикормку вводите постепенно.',bream:'Проверьте глубину и участки со спокойным течением.',zander:'Ищите перепады глубины и твёрдое дно.',trout:'Ищите прохладную, хорошо насыщенную кислородом воду.',other:'Экспериментируйте с глубиной, точкой и размером наживки.'};
+      $('advice').textContent=`Подсказка для ${fishLabel}: ${tips[fishKind]||tips.other} ${water==='river'?'На реке учитывайте безопасный подход к воде.':''}`;
+    }
+    document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',calc));
+    $('locateBtn').addEventListener('click',locateAndFill);
+    $('pressureConfidence').addEventListener('input',()=>{$('confidenceOut').textContent=({1:'Приблизительно',2:'Средне',3:'Точно'})[$('pressureConfidence').value]});calc();
+  </script>
+</body>
+</html>
